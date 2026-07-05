@@ -1,0 +1,50 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'org.nhnnext'
+version = '1.0'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.google.guava:guava:18.0'
+    implementation 'ch.qos.logback:logback-classic:1.1.2'
+
+    testImplementation 'junit:junit:4.11'
+}
+
+application {
+    mainClass = 'webserver.WebServer'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+tasks.named('test') {
+    useJUnit()
+}
+
+tasks.named('jar') {
+    archiveBaseName = 'web-application-server'
+}
+
+distributions {
+    main {
+        contents {
+            from('webapp') {
+                into 'webapp'
+            }
+        }
+    }
+}
